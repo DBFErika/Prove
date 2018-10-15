@@ -524,7 +524,10 @@ class Anagrafica
         list.add(a2);
         list.add(a3);
         System.out.println(list);
-        System.out.println(a2.compareTo(a3));
+        list.remove(a2);
+        System.out.println(list);
+        System.out.println(a1.compareTo(a3));
+        
     }
     
 }
