@@ -422,34 +422,188 @@ public class Main {
 //        System.out.println(Arrays.toString(v3));
 //        //System.out.println(pos);
         
-        
-        //USO DI ARRAYLIST
-        int[] v1 = {10, 20, 30, 70, 50, 60, 70, 80, 90, 10, 110, 120};
-        
-        ArrayList lista = new ArrayList(); //la lista non è omogenea per il tipo
-        for (int i = 0; i < 10; i++) {
-            lista.add(11 * i);
+//        
+//        //USO DI ARRAYLIST
+//        int[] v1 = {10, 20, 30, 70, 50, 60, 70, 80, 90, 10, 110, 120};
+//        
+//        ArrayList lista = new ArrayList(); //la lista non è omogenea per quanto riguarda il tipo
+//        for (int i = 0; i < 10; i++) {
+//            lista.add(11 * i);
+//        }
+//        lista.add(1, 5);
+//        lista.remove(Integer.valueOf(44)); 
+//        lista.remove(4);
+//        lista.add(0,3.2);
+//        lista.add(0,"Siamo in tanti");
+//        System.out.println(lista.indexOf(66));
+//        System.out.println(lista);
+//        lista.set(0, 111);
+//        System.out.println(lista);        
+//        System.out.println(lista.size());
+//        Anagrafica.test();
+//
+        //USO DI PARAMETRI VARIABILI
+        String s = concatena("come ", "sono ", "bello.", " Forse.");
+//        System.out.println(s);
+//        System.out.println(get(2,"come ", "sono ", "bello.", " Forse."));
+//        System.out.println(somma(1,2,3,4,5,6,7,8,9,10));
+//        System.out.println(somma(1,2));  
+        try
+        {
+            System.out.println(String.format("%,2d", fattoriale(13)));
         }
-        lista.add(1, 5);
-        lista.remove(Integer.valueOf(44)); 
-        lista.remove(4);
-        lista.add(0,3.2);
-        lista.add(0,"Siamo in tanti");
-        System.out.println(lista.indexOf(66));
-        System.out.println(lista);
-        lista.set(0, 111);
-        System.out.println(lista);        
-        System.out.println(lista.size());
-        Anagrafica.test();
+        catch(ExceptionParamNegative e)
+        {
+            //se lasciamo vuoto viene inserita l'eccezione intercettata ne fattoriale
+            //System.out.println(e);         
+        }
+        catch(ExceptionParamGrande e){}
+        
+        
+
+//        //CLASSE EXCEPTION
+//        //si utilizza per sollevare un eccezione
+//        //quando intercetta un errore si può procedere con il main o uscire
+//        //si richiama con throw
+//        //nella classe si deve inserire quale eccezione prende in carico
+//        Exception e = new Exception("Salute a te.");
+//        System.out.println(e);
+        
+        
         
         
     }
+    /**
+     * Dati un numero variabili di elementi stringa vengono inseriti in una singola stringa.
+     * Si possono inserire dei parametri prestabiliti, ma devono essere inseriti prima di quella
+     * variabile. Non possono essere inserite invece 2 parametri liste
+     * @param lista in questo parametro puoi passare stringhe in modo variabile
+     * @return ritorna una stringa che è la somma di quelle inserite in lista
+     */
+    public static String concatena(String ... lista)
+    {
+        String s = "";
+        for (String element : lista) 
+        {
+            s += element;     
+        }
+        return s;
+    }
+    /**
+     * Estrae l'elemento di indice index dalla lista variabile dei parametri
+     * @param index indice da cui voglio estrarre
+     * @param list lista degli elementi inseriti
+     * @return valore della lista nel dato indice
+     */
+    public static String get(int index, String ... list)
+    {
+        if (index >= list.length)
+            return "";
+        else
+        {
+            return list[index];
+//            String[] tmp = new String[list.length];
+//            int i = 0;            
+//            for (String e : list)
+//            {
+//                tmp[i] = e;
+//                i++;
+//            }
+//            return tmp[index];
+        }
+    }
+    
+    /**
+     * Somma dei numeri inseriti nei parametri variabili
+     * @param numeri parametro variabile di numeri inseriti
+     * @return somma dei numeri passati come argomenti
+     */
+    public static double somma(double ... numeri)
+    {
+        double somma = 0;
+        for(double e: numeri)
+        {
+            somma += e;
+        }
+        return somma;
+    }
+    /**
+     * Attenzione a questo metodo perchè potrebbe essere confuso con quello
+     * sopra della lista.
+     * @param a
+     * @param b
+     * @return 
+     */
+    public static double somma(double a, double b)
+    {
+        return 2*(a+b);
+    }
+    /**
+     * Ritorna l'intero fattoriale del numero inserito. Utilizza la ricorsione
+     * per richiamarsi e calcolare quelli precedenti.
+     * Esempio: il fattoriale di 4 è 4*3*2*1
+     * Se ci sono degli errori viene lanciata la classe fatta da noi Exception
+     * @param N
+     * @return 
+     */
+    public static int fattoriale(int N) throws ExceptionParamNegative, ExceptionParamGrande
+    {
+        if (N < 0) 
+        {
+            throw new ExceptionParamNegative("Argomento del fattoriale negativo.");
+            
+        }
+        if (N > 12) 
+            throw new ExceptionParamGrande("Argomento del fattoriale grande");
+        if (N < 2)
+            return 1;
+        else
+        {
+            return N * fattoriale(N-1);
+            
+//            //2 METODO
+//            int fattPrec = fattoriale(N-1);
+//            int risultato = fattPrec * N;
+//            return risultato;
+        }            
+    }
+    
+    
+    
     enum Colori
     {
         giallo, verde, blu, rosso, bianco, arancione;
     }
 }
+/**
+ * Classe che intercetta le eccezioni dei parametri negativi
+ */
+class ExceptionParamNegative extends Exception
+{
+    String messaggioIniziale;
+    public ExceptionParamNegative(String s)
+    {
+        messaggioIniziale = s;
+        System.out.println(s);
+        //se esce 1 significa che c'è un errore
+        System.exit(1);
+    }
+    public String toString()
+    {
+        return "Il controllo dei parametri"
+                + "\nha avuto esito negativo."
+                + "\n" + messaggioIniziale;
+    }
 
+}
+
+class ExceptionParamGrande extends Exception
+{
+    public ExceptionParamGrande(String s)
+    {
+        System.out.println("s");
+    }
+}
 class Anagrafica
 {
     private String nominativo, comune;
@@ -468,6 +622,25 @@ class Anagrafica
             dataNascita.equals(other.dataNascita));
     }
     
+    public int compareTo(Anagrafica other)
+    {
+        //se compariamo e risultano uguali confronto le date di nascita
+        if (nominativo.toLowerCase().compareTo(other.nominativo.toLowerCase()) == 0) 
+        {
+            if (dataNascita.before(other.dataNascita)) 
+                {//confronta le date di nascita 
+                    return -1;                
+                }
+                else
+                {
+                    return 1;
+                }
+        }
+        //se invece sono diversi
+        //ritorno il risultato della comparazione
+        return nominativo.toLowerCase().compareTo(other.nominativo.toLowerCase());        
+    }
+//    //METODO 2
 //    public int compareTo(Anagrafica other)
 //    {
 //        if (this.equals(other)) //se anagrafica other è uguale a this
@@ -488,31 +661,13 @@ class Anagrafica
 //            //ritorna il caso del maggiore o del minore riferito al nominativo
 //    }
     
-    public int compareTo(Anagrafica other)
-    {
-        //se compariamo e risultano uguali confronto le date di nascita
-        if (nominativo.toLowerCase().compareTo(other.nominativo.toLowerCase()) == 0) 
-        {
-            if (dataNascita.before(other.dataNascita)) 
-                {//confronta le date di nascita 
-                    return -1;                
-                }
-                else
-                {
-                    return 1;
-                }
-        }
-        //se invece sono diversi
-        //ritorno il risultato della comparazione
-        return nominativo.toLowerCase().compareTo(other.nominativo.toLowerCase());
-        
-    }
-    
     public String toString()
     {
         return nominativo + "-" + dataNascita + "-" + comune;
     }
-    
+    /**
+     * Test della classe anagrafica
+     */
     public static void test()
     {
         Anagrafica a1 = new Anagrafica("Pippo Baudo", "Catania", "10/10/1940");
@@ -557,9 +712,8 @@ enum Mesi
             case "mag": return maggio;
             default: return valueOf(s);
         }             
-    }
+    }    
     
-    //ciclo
     public static int nGiorni(Mesi mese)
     {
         switch(mese)
